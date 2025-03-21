@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechFix | Réparation & Vente d'Ordinateurs, Téléphones & Tablettes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #60a5fa;
+            --primary-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            --secondary: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border-color: #cbd5e1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition-slow: 0.3s ease;
+            --transition-fast: 0.15s ease;
+            --modal-bg: rgba(15, 23, 42, 0.7);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: #fff;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            font-size: 1.25rem;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width var(--transition-slow);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.25);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            box-shadow: 0 6px 8px rgba(37, 99, 235, 0.35);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--dark);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Language Selector */
+        .language-selector {
+            position: relative;
+            margin-right: 0.5rem;
+        }
+        
+        .language-toggle {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            transition: all var(--transition-fast);
+        }
+        
+        .language-toggle:hover {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+        
+        .language-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-fast);
+            z-index: 101;
+        }
+        
+        .language-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px);
+        }
+        
+        .language-option {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+        
+        .language-option:hover {
+            background-color: var(--secondary);
+        }
+        
+        .language-option.active {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .language-flag {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-color: var(--secondary);
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            z-index: 0;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(59, 130, 246, 0.02) 100%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            position: relative;
+        }
+        
+        .hero-text {
+            flex: 1;
+        }
+        
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--gray) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .hero-img {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .hero-img img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+            z-index: 1;
+        }
+        
+        .hero-img:hover img {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .hero-badge {
+            position: absolute;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 2;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .hero-badge-1 {
+            top: 20px;
+            right: -20px;
+        }
+        
+        .hero-badge-2 {
+            bottom: 20px;
+            left: -20px;
+            animation-delay: 1s;
+        }
+        
+        .badge-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+        
+        .badge-text h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .badge-text p {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin: 0;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 6rem 0;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary-gradient);
+            border-radius: 3px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 3.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.05rem;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            padding: 2.5rem 2rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all var(--transition-slow);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background: linear-gradient(180deg, rgba(37, 99, 235, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            transition: height var(--transition-slow);
+            z-index: -1;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--hover-shadow);
+            border-color: rgba(37, 99, 235, 0.1);
+        }
+        
+        .service-card:hover::before {
+            height: 100%;
+        }
+        
+        .service-icon {
+            margin-bottom: 1.5rem;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: white;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 10px 15px rgba(37, 99, 235, 0.2);
+            transition: transform var(--transition-slow);
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .service-card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .service-card p {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: gap var(--transition-fast);
+        }
+        
+        .service-link:hover {
+            gap: 0.75rem;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background-color: var(--secondary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-card .quick-view-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity var(--transition-fast), transform var(--transition-fast);
+            z-index: 2;
+        }
+        
+        .feature-card:hover .quick-view-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feature-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+        
+        .feature-card:hover .feature-img {
+            transform: scale(1.05);
+        }
+        
+        .feature-content {
+            padding: 1.5rem;
+        }
+        
+        .feature-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-content p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 1rem;
+            margin-left: 0.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tag-new {
+            background-color: #10B981;
+            color: white;
+        }
+        
+        .tag-refurbished {
+            background-color: #F59E0B;
+            color: white;
+        }
+        
+        /* Repair Process */
+        .repair-process {
+            padding: 5rem 0;
+        }
+        
+        .process-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .process-step h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .process-step p {
+            color: var(--gray);
+        }
+        
+        .process-step:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 30px;
+            right: -30px;
+            width: 60px;
+            height: 2px;
+            background-color: var(--light-gray);
+        }
+        
+        /* Products */
+        .products {
+            padding: 5rem 0;
+            background-color: var(--secondary);
+        }
+        
+        .products-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .products-tab {
+            padding: 0.75rem 1.5rem;
+            background: #fff;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .products-tab.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+        
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+        
+        .product-card .quick-view-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity var(--transition-fast), transform var(--transition-fast);
+            z-index: 2;
+        }
+        
+        .product-card:hover .quick-view-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .product-content {
+            padding: 1rem;
+        }
+        
+        .product-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 5rem 0;
+        }
+        
+        .testimonial-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            font-weight: 600;
+        }
+        
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        /* About Us Section */
+        .about {
+            padding: 5rem 0;
+            background-color: var(--secondary);
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .about-text p {
+            margin-bottom: 2rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+        
+        .about-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        .team-section {
+            margin-top: 4rem;
+        }
+        
+        .team-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .team-member {
+            text-align: center;
+            transition: transform var(--transition-slow);
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-member h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 5rem 0;
+            background-color: var(--secondary);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .faq-answer {
+            color: var(--gray);
+        }
+        
+        /* Contact */
+        .contact {
+            padding: 5rem 0;
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        .contact-form h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 150px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: #fff;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-about p {
+            color: var(--light-gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-link {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary);
+        }
+        
+        .footer-links h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light-gray);
+            font-size: 0.875rem;
+        }
+        
+        /* Product Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--modal-bg);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-slow), visibility var(--transition-slow);
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .product-modal {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(20px) scale(0.98);
+            opacity: 0;
+            transition: transform var(--transition-slow), opacity var(--transition-slow);
+            padding: 0;
+        }
+        
+        .modal-overlay.active .product-modal {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: all var(--transition-fast);
+        }
+        
+        .modal-close:hover {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+        
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            padding: 2.5rem;
+        }
+        
+        .modal-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 320px;
+            border-radius: 10px;
+            object-fit: contain;
+            background-color: var(--secondary);
+            transition: transform var(--transition-slow);
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--light-gray);
+        }
+        
+        .thumbnail-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .thumbnail-container::-webkit-scrollbar-track {
+            background: var(--light-gray);
+            border-radius: 3px;
+        }
+        
+        .thumbnail-container::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition-fast);
+        }
+        
+        .thumbnail.active {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .thumbnail:hover:not(.active) {
+            border-color: var(--light-gray);
+        }
+        
+        .modal-info h2 {
+            font-size: 1.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .modal-price {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .modal-description {
+            margin-bottom: 2rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+        
+        .specs-list {
+            margin-bottom: 2rem;
+        }
+        
+        .specs-list li {
+            display: flex;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .specs-list li span:first-child {
+            font-weight: 600;
+            width: 150px;
+            flex-shrink: 0;
+            color: var(--dark);
+        }
+        
+        .specs-list li span:last-child {
+            color: var(--gray);
+        }
+        
+        .modal-actions {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+            color: var(--dark);
+        }
+        
+        .quantity-btn:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .quantity-input {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .add-to-cart-btn {
+            flex: 1;
+            height: 40px;
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.5s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Responsive Modal */
+        @media screen and (max-width: 768px) {
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                padding: 1rem 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+            }
+            
+            nav.active {
+                transform: translateY(0);
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            nav li {
+                width: 100%;
+                text-align: center;
+                padding: 1rem 0;
+                border-bottom: 1px solid var(--light-gray);
+            }
+            
+            .hero-content {
+                flex-direction: column;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .process-step:not(:last-child)::after {
+                display: none;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo"><i class="fas fa-microchip"></i> TechFix</a>
+            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+            <nav>
+                <ul>
+                    <li><a href="#" data-lang="home">Accueil</a></li>
+                    <li><a href="#services" data-lang="repair_services">Services de Réparation</a></li>
+                    <li><a href="#products" data-lang="shop">Boutique</a></li>
+                    <li><a href="#about" data-lang="about_us">À Propos</a></li>
+                    <li><a href="#contact" data-lang="contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="language-selector">
+                    <button class="language-toggle">
+                        <span class="current-language">FR</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="language-menu">
+                        <div class="language-option" data-lang="en">
+                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/1x1/us.svg" alt="English" class="language-flag">
+                            <span>English</span>
+                        </div>
+                        <div class="language-option active" data-lang="fr">
+                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/1x1/fr.svg" alt="Français" class="language-flag">
+                            <span>Français</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" data-lang="book_repair"><i class="fas fa-tools"></i> <span>Réserver une Réparation</span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 data-lang="hero_title">Réparation Experte & Appareils de Qualité</h1>
+                    <p data-lang="hero_description">Votre solution tout-en-un pour la réparation d'ordinateurs, téléphones et tablettes. Nous proposons également une large sélection d'appareils neufs et reconditionnés à des prix compétitifs.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" data-lang="book_repair"><i class="fas fa-tools"></i> <span>Réserver une Réparation</span></button>
+                        <button class="btn btn-secondary" data-lang="shop_devices"><i class="fas fa-shopping-cart"></i> <span>Acheter des Appareils</span></button>
+                    </div>
+                </div>
+                <div class="hero-img">
+                    <img src="/api/placeholder/500/300" alt="Réparation et vente d'appareils">
+                    <div class="hero-badge hero-badge-1">
+                        <div class="badge-icon"><i class="fas fa-check"></i></div>
+                        <div class="badge-text">
+                            <h4 data-lang="certified_repairs">Réparations Certifiées</h4>
+                            <p data-lang="warranty">Garantie de 90 jours</p>
+                        </div>
+                    </div>
+                    <div class="hero-badge hero-badge-2">
+                        <div class="badge-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="badge-text">
+                            <h4 data-lang="fast_service">Service Rapide</h4>
+                            <p data-lang="same_day">Réparations le jour même</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title" data-lang="services_title">Services de Réparation Professionnels</h2>
+            <p class="section-subtitle" data-lang="services_subtitle">Réparations rapides et fiables pour tous vos appareils avec une garantie de satisfaction. La plupart des réparations sont effectuées le jour même.</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-laptop"></i></div>
+                    <h3 data-lang="computer_repair">Réparation d'Ordinateurs</h3>
+                    <p data-lang="computer_repair_desc">Mises à niveau matérielles, suppression de virus, récupération de données, optimisation du système et plus pour ordinateurs portables et de bureau.</p>
+                    <a href="#" class="service-link" data-lang="learn_more">En savoir plus <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3 data-lang="phone_repair">Réparation de Téléphones</h3>
+                    <p data-lang="phone_repair_desc">Remplacement d'écran, remplacement de batterie, réparation de port de charge, récupération de dégâts d'eau pour toutes les grandes marques.</p>
+                    <a href="#" class="service-link" data-lang="learn_more">En savoir plus <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-tablet-alt"></i></div>
+                    <h3 data-lang="tablet_repair">Réparation de Tablettes</h3>
+                    <p data-lang="tablet_repair_desc">Réparation d'écran, remplacement de batterie, réparation de boutons et problèmes logiciels pour iPads et tablettes Android.</p>
+                    <a href="#" class="service-link" data-lang="learn_more">En savoir plus <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Repair Process -->
+    <section class="repair-process">
+        <div class="container">
+            <h2 class="section-title">Notre Processus de Réparation</h2>
+            <p class="section-subtitle">Simple, transparent et efficace - voici comment nous réparons vos appareils</p>
+            
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Diagnostic</h3>
+                    <p>Diagnostics gratuits pour identifier le problème exact de votre appareil</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Devis</h3>
+                    <p>Prix transparents sans frais cachés ni surprises</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Réparation</h3>
+                    <p>Techniciens experts utilisant des pièces de qualité pour des réparations durables</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Garantie</h3>
+                    <p>Garantie de 90 jours sur toutes les réparations pour votre tranquillité d'esprit</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title" data-lang="featured_devices">Appareils Vedettes</h2>
+            <p class="section-subtitle" data-lang="browse_selection">Parcourez notre sélection d'ordinateurs, téléphones et tablettes neufs et reconditionnés</p>
+            <div class="features-grid">
+                <div class="feature-card" data-product-id="001">
+                    <img src="images/mac1.jpg.avif" alt="MacBook Pro" class="feature-img">
+                    <button class="quick-view-btn" aria-label="Aperçu rapide" data-product-id="001"><i class="fas fa-eye"></i></button>
+                    <div class="feature-content">
+                        <span class="tag tag-refurbished" data-lang="refurbished">Reconditionné</span>
+                        <h3>MacBook Pro 14"</h3>
+                        <p data-lang="macbook_desc">Puce M2 Pro, 16 Go RAM, 512 Go SSD. Entièrement testé et certifié avec garantie d'un an.</p>
+                        <div class="feature-price">1 499 € <span class="original-price">1 999 €</span></div>
+                        <button class="btn btn-primary" data-lang="add_to_cart"><i class="fas fa-shopping-cart"></i> <span>Ajouter au Panier</span></button>
+                    </div>
+                </div>
+                <div class="feature-card" data-product-id="002">
+                    <img src="images/iphone1.jpg.avif" alt="iPhone 14 Pro" class="feature-img">
+                    <button class="quick-view-btn" aria-label="Aperçu rapide" data-product-id="002"><i class="fas fa-eye"></i></button>
+                    <div class="feature-content">
+                        <span class="tag tag-new" data-lang="new">Neuf</span>
+                        <h3>iPhone 14 Pro</h3>
+                        <p data-lang="iphone_desc">Puce A16 Bionic, 256 Go de stockage, système de caméra professionnel avec capteur principal de 48 MP.</p>
+                        <div class="feature-price">999 €</div>
+                        <button class="btn btn-primary" data-lang="add_to_cart"><i class="fas fa-shopping-cart"></i> <span>Ajouter au Panier</span></button>
+                    </div>
+                </div>
+                <div class="feature-card" data-product-id="003">
+                    <img src="images/surface1.jpg.avif  " alt="Surface Pro" class="feature-img">
+                    <button class="quick-view-btn" aria-label="Aperçu rapide" data-product-id="003"><i class="fas fa-eye"></i></button>
+                    <div class="feature-content">
+                        <span class="tag tag-refurbished" data-lang="refurbished">Reconditionné</span>
+                        <h3>Microsoft Surface Pro 9</h3>
+                        <p data-lang="surface_desc">Intel Core i7, 16 Go RAM, 256 Go SSD. État parfait avec tous les accessoires.</p>
+                        <div class="feature-price">899 € <span class="original-price">1 299 €</span></div>
+                        <button class="btn btn-primary" data-lang="add_to_cart"><i class="fas fa-shopping-cart"></i> <span>Ajouter au Panier</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Découvrez Notre Collection</h2>
+            <p class="section-subtitle">Des appareils de qualité à des prix compétitifs avec garantie et support</p>
+            
+            <div class="products-tabs">
+                <div class="products-tab active">Tous</div>
+                <div class="products-tab">Ordinateurs</div>
+                <div class="products-tab">Téléphones</div>
+                <div class="products-tab">Tablettes</div>
+                <div class="products-tab">Accessoires</div>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card" data-product-id="004">
+                    <img src="images/ipad1.jpg.avif" alt="iPad Air" class="product-img">
+                    <button class="quick-view-btn" aria-label="Aperçu rapide" data-product-id="004">👁️</button>
+                    <div class="product-content">
+                        <span class="tag tag-refurbished">Reconditionné</span>
+                        <h3>iPad Air (2022)</h3>
+                        <p class="product-price">449 €</p>
+                    </div>
+                </div>
+                <div class="product-card" data-product-id="005">
+                    <img src="images/S241.jpg.avif" alt="Samsung Galaxy" class="product-img">
+                    <button class="quick-view-btn" aria-label="Aperçu rapide" data-product-id="005">👁️</button>
+                    <div class="product-content">
+                        <span class="tag tag-new">Neuf</span>
+                        <h3>Samsung Galaxy S24</h3>
+                        <p class="product-price">799 €</p>
+                    </div>
+                </div>
+                <div class="product-card" data-product-id="006">
+                    <img src="images/xps1.jpg.avif" alt="Dell XPS" class="product-img">
+                    <button class="quick-view-btn" aria-label="Aperçu rapide" data-product-id="006">👁️</button>
+                    <div class="product-content">
+                        <span class="tag tag-new">Neuf</span>
+                        <h3>Dell XPS 13</h3>
+                        <p class="product-price">1 199 €</p>
+                    </div>
+                </div>
+                <div class="product-card" data-product-id="007">
+                    <img src="images/ecouteur1.jpg.avif" alt="Écouteurs sans fil" class="product-img">
+                    <button class="quick-view-btn" aria-label="Aperçu rapide" data-product-id="007">👁️</button>
+                    <div class="product-content">
+                        <span class="tag tag-new">Neuf</span>
+                        <h3>Écouteurs Sans Fil Pro</h3>
+                        <p class="product-price">129 €</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Témoignages de Clients</h2>
+            <p class="section-subtitle">Découvrez pourquoi nos clients nous confient leurs appareils précieux</p>
+            <div class="testimonial-card">
+                <p class="testimonial-content">"TechFix a sauvé mon ordinateur professionnel quand je pensais que toutes mes données étaient perdues. Non seulement ils ont tout récupéré, mais ils ont aussi amélioré mon système qui fonctionne désormais plus rapidement que jamais. Leurs prix pour les appareils reconditionnés sont également imbattables !"</p>
+                <div class="testimonial-author">
+                    <img src="images/" alt="Client" class="author-img">
+                    <div class="author-info">
+                        <h4>Michel Robert</h4>
+                        <p>Propriétaire de Petite Entreprise</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Us Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">À Propos de TechFix</h2>
+            <p class="section-subtitle">Votre partenaire technologique de confiance depuis 2010</p>
+            
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="images/phonestore.jpg" alt="Magasin TechFix" class="fade-in">
+                </div>
+                <div class="about-text">
+                    <h3>Notre Histoire</h3>
+                    <p>TechFix a été fondé en 2010 par une équipe de passionnés de technologie qui ont vu un besoin de services de réparation fiables et honnêtes, ainsi que d'appareils reconditionnés de qualité. Ce qui a commencé comme un petit atelier de réparation est devenu un partenaire technologique de confiance pour des milliers de clients dans toute la région.</p>
+                    
+                    <h3>Notre Mission</h3>
+                    <p>Nous croyons en la prolongation de la durée de vie de la technologie grâce à des réparations expertes et en fournissant un accès abordable à des appareils de qualité grâce à nos produits soigneusement reconditionnés. Notre mission est de réduire les déchets électroniques tout en aidant nos clients à tirer le meilleur parti de leurs investissements technologiques.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Années d'Expérience</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50 000+</div>
+                            <div class="stat-label">Réparations Effectuées</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">Satisfaction Client</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-section">
+                <h3 class="team-title">Rencontrez Notre Équipe d'Experts</h3>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="images/man2.jpg" alt="Membre de l'équipe" class="team-img">
+                        <h4>David Chen</h4>
+                        <p>Fondateur & Technicien Principal</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="images/girl1.jpg" alt="Membre de l'équipe" class="team-img">
+                        <h4>Sarah Johnson</h4>
+                        <p>Responsable des Réparations</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="images/man1.jpg" alt="Membre de l'équipe" class="team-img">
+                        <h4>Miguel Rodriguez</h4>
+                        <p>Responsable Assurance Qualité</p>
+                    </div>  
+                    <div class="team-member">
+                        <img src="images/girl2.jpg" alt="Membre de l'équipe" class="team-img">
+                        <h4>Jennifer Kim</h4>
+                        <p>Directrice du Service Client</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="images/man3.jpg" alt="Membre de l'équipe" class="team-img">
+                        <h4>Thomas Dubois</h4>
+                        <p>Spécialiste en Réparation Mobile</p> 
+                    </div>
+            </div>
+        </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Foire Aux Questions</h2>
+            <p class="section-subtitle">Trouvez des réponses à nos questions les plus fréquemment posées</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Combien de temps durent généralement les réparations ?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>La plupart des réparations courantes (remplacements d'écran, remplacements de batterie, etc.) peuvent être effectuées le jour même, souvent en 1 à 2 heures. Des réparations plus complexes peuvent prendre 1 à 3 jours ouvrables. Nous fournissons toujours un délai d'achèvement estimé lorsque vous déposez votre appareil.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Quelle garantie offrez-vous sur les réparations et les appareils reconditionnés ?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Toutes les réparations sont accompagnées d'une garantie de 90 jours couvrant les pièces et la main-d'œuvre. Les appareils reconditionnés comprennent une garantie limitée d'un an. Les nouveaux appareils bénéficient de la garantie du fabricant.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Proposez-vous des services de récupération de données ?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui, nous proposons des services de récupération de données pour ordinateurs, téléphones et tablettes. Notre taux de réussite est supérieur à 90% pour la plupart des scénarios courants de perte de données. Toutes les données récupérées sont gardées confidentielles et sécurisées.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Quelle est la différence entre les appareils neufs et reconditionnés ?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Les appareils neufs sont flambant neufs et non ouverts. Les appareils reconditionnés ont été soigneusement inspectés, réparés si nécessaire et restaurés à un état comme neuf. Ils subissent un rigoureux processus de test en 40 points et incluent une garantie. Les appareils reconditionnés offrent des économies significatives tout en fournissant des performances fiables.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contactez-Nous</h2>
+            <p class="section-subtitle">Des questions ? Besoin d'un devis ? Nous sommes là pour vous aider !</p>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Informations de Contact</h3>
+                    <div class="contact-detail">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <p>123 Rue Tech, Ville Numérique, VN 10101</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <p>01 23 45 67 89</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <p>service@techfix.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-icon">🕒</div>
+                        <div>
+                            <p>Lun-Ven : 9h - 19h<br>Samedi : 10h - 17h<br>Dimanche : Fermé</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Envoyez-Nous un Message</h3>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Votre Nom">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Votre Email">
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" placeholder="Votre Téléphone">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control">
+                                <option value="">Sélectionner un Service</option>
+                                <option value="computer-repair">Réparation d'Ordinateur</option>
+                                <option value="phone-repair">Réparation de Téléphone</option>
+                                <option value="tablet-repair">Réparation de Tablette</option>
+                                <option value="purchase">Achat d'Appareil</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Décrivez votre problème ou question"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Envoyer le Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">TechFix</div>
+                    <p>Votre destination de confiance pour la réparation d'appareils et des ordinateurs, téléphones et tablettes de qualité. Service expert et prix imbattables depuis 2010.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">f</a>
+                        <a href="#" class="social-link">t</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">ig</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Liens Rapides</h4>
+                    <ul>
+                        <li><a href="#">Accueil</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#products">Boutique</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="#">Réparation d'Ordinateurs</a></li>
+                        <li><a href="#">Réparation de Téléphones</a></li>
+                        <li><a href="#">Réparation de Tablettes</a></li>
+                        <li><a href="#">Récupération de Données</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#">Infos Garantie</a></li>
+                        <li><a href="#">Politique d'Expédition</a></li>
+                        <li><a href="#">Politique de Confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 TechFix. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="productModal">
+        <div class="product-modal">
+            <div class="modal-header">
+                <h2>Détails du Produit</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Le contenu sera inséré dynamiquement ici -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const nav = document.querySelector('nav');
+        
+        navToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+        
+        // FAQ toggles
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isOpen = answer.style.display === 'block';
+                
+                // Close all answers
+                document.querySelectorAll('.faq-answer').forEach(item => {
+                    item.style.display = 'none';
+                });
+                
+                document.querySelectorAll('.faq-question span:last-child').forEach(span => {
+                    span.textContent = '+';
+                });
+                
+                // Open current answer if it was closed
+                if (!isOpen) {
+                    answer.style.display = 'block';
+                    question.querySelector('span:last-child').textContent = '-';
+                }
+            });
+        });
+        
+        // Initialize - hide all answers except first one
+        document.querySelectorAll('.faq-answer').forEach((answer, index) => {
+            if (index === 0) {
+                answer.style.display = 'block';
+                const question = answer.previousElementSibling;
+                question.querySelector('span:last-child').textContent = '-';
+            } else {
+                answer.style.display = 'none';
+            }
+        });
+        
+        // Product tabs
+        const productTabs = document.querySelectorAll('.products-tab');
+        
+        productTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                productTabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // In a real implementation, you would filter products here
+            });
+        });
+        
+        // Product Modal Functionality
+        const modalOverlay = document.getElementById('productModal');
+        const modalClose = document.querySelector('.modal-close');
+        const modalBody = document.querySelector('.modal-body');
+        
+        // Product Database (In a real implementation, this would come from a backend)
+        const products = {
+            "001": {
+                name: "MacBook Pro 14\"",
+                type: "reconditionné",
+                price: 1499,
+                originalPrice: 1999,
+                description: "Profitez de performances exceptionnelles avec ce MacBook Pro entièrement reconditionné équipé de la puissante puce M2 Pro, 16 Go de mémoire unifiée et 512 Go de stockage SSD. Cet ordinateur portable a été minutieusement testé et certifié par nos techniciens.",
+                specs: [
+                    { name: "Processeur", value: "Apple M2 Pro avec CPU 10 cœurs" },
+                    { name: "Mémoire", value: "16 Go RAM unifiée" },
+                    { name: "Stockage", value: "512 Go SSD" },
+                    { name: "Écran", value: "Écran Liquid Retina XDR 14,2 pouces" },
+                    { name: "Graphisme", value: "GPU 16 cœurs" },
+                    { name: "État", value: "Excellent - usure cosmétique mineure" },
+                    { name: "Garantie", value: "Garantie limitée d'un an" }
+                ],
+                images: [
+                    "images/mac1.jpg.avif",
+                    "images/mac2.jpg.avif",
+                    "images/mac3.jpg.avif"
+                ]
+            },
+            "002": {
+                name: "iPhone 14 Pro",
+                type: "neuf",
+                price: 999,
+                description: "Découvrez le smartphone phare d'Apple avec son écran époustouflant, sa puissante puce A16 Bionic et son système de caméra professionnel. Cet appareil neuf est livré avec la garantie complète du fabricant et tous les accessoires d'origine.",
+                specs: [
+                    { name: "Processeur", value: "Puce A16 Bionic" },
+                    { name: "Stockage", value: "256 Go" },
+                    { name: "Écran", value: "Écran Super Retina XDR 6,1 pouces" },
+                    { name: "Appareil photo", value: "48 MP principal, 12 MP ultra grand-angle, 12 MP téléobjectif" },
+                    { name: "Batterie", value: "Jusqu'à 23 heures de lecture vidéo" },
+                    { name: "État", value: "Neuf, scellé dans sa boîte" },
+                    { name: "Garantie", value: "Garantie fabricant d'un an" }
+                ],
+                images: [
+                    "images/iphone1.jpg.avif",
+                    "images/iphone2.jpg.avif",
+                    "images/iphone3.jpg.avif"
+                ]
+            },
+            "003": {
+                name: "Microsoft Surface Pro 9",
+                type: "reconditionné",
+                price: 899,
+                originalPrice: 1299,
+                description: "Cette Microsoft Surface Pro 9 reconditionnée offre l'équilibre parfait entre les performances d'un ordinateur portable et la mobilité d'une tablette. Équipée d'un écran tactile haute résolution, d'un puissant processeur Intel et de tous les accessoires inclus.",
+                specs: [
+                    { name: "Processeur", value: "Intel Core i7-1255U" },
+                    { name: "Mémoire", value: "16 Go RAM" },
+                    { name: "Stockage", value: "256 Go SSD" },
+                    { name: "Écran", value: "Écran PixelSense Flow 13 pouces" },
+                    { name: "Graphisme", value: "Intel Iris Xe Graphics" },
+                    { name: "État", value: "Excellent - signes d'utilisation minimes" },
+                    { name: "Garantie", value: "Garantie limitée d'un an" }
+                ],
+                images: [
+                    "images/surface1.jpg.avif",
+                    "images/surface2.jpg.avif",
+                    "images/surface3.jpg.avif"
+                ]
+            },
+            "004": {
+                name: "iPad Air (2022)",
+                type: "reconditionné",
+                price: 449,
+                originalPrice: 599,
+                description: "Cet iPad Air reconditionné est équipé de la puissante puce M1, d'un magnifique écran Liquid Retina de 10,9 pouces et d'une batterie longue durée. Parfait pour le travail, la créativité et le divertissement.",
+                specs: [
+                    { name: "Processeur", value: "Puce Apple M1" },
+                    { name: "Stockage", value: "64 Go" },
+                    { name: "Écran", value: "Écran Liquid Retina 10,9 pouces" },
+                    { name: "Connectivité", value: "Wi-Fi 6" },
+                    { name: "État", value: "Excellent - signes d'utilisation minimes" },
+                    { name: "Garantie", value: "Garantie limitée d'un an" }
+                ],
+                images: [
+                    "images/ipad1.jpg.avif",
+                    "images/ipad2.jpg.avif",
+                    "images/ipad3.jpg.avif"
+                ]
+            },
+            "005": {
+                name: "Samsung Galaxy S24",
+                type: "neuf",
+                price: 799,
+                description: "Le dernier smartphone phare de Samsung avec un écran époustouflant, un processeur puissant et un système de caméra avancé. Découvrez la prochaine génération de technologie mobile.",
+                specs: [
+                    { name: "Processeur", value: "Snapdragon 8 Gen 3" },
+                    { name: "Mémoire", value: "8 Go RAM" },
+                    { name: "Stockage", value: "256 Go" },
+                    { name: "Écran", value: "Dynamic AMOLED 2X 6,2 pouces" },
+                    { name: "Appareil photo", value: "50 MP principal, 12 MP ultra grand-angle, 10 MP téléobjectif" },
+                    { name: "État", value: "Neuf, scellé dans sa boîte" },
+                    { name: "Garantie", value: "Garantie fabricant d'un an" }
+                ],
+                images: [
+                    "images/S241.jpg.avif",
+                    "images/S242.jpg.avif",
+                    "images/S243.jpg.avif"
+                ]
+            },
+            "006": {
+                name: "Dell XPS 13",
+                type: "neuf",
+                price: 1199,
+                description: "L'ordinateur portable ultra-portable par excellence avec un magnifique écran InfinityEdge, un puissant processeur Intel et une qualité de construction premium. Parfait pour les professionnels et les étudiants.",
+                specs: [
+                    { name: "Processeur", value: "Intel Core i7-1360P" },
+                    { name: "Mémoire", value: "16 Go RAM" },
+                    { name: "Stockage", value: "512 Go SSD" },
+                    { name: "Écran", value: "Écran InfinityEdge FHD+ 13,4 pouces" },
+                    { name: "Graphisme", value: "Intel Iris Xe Graphics" },
+                    { name: "État", value: "Neuf, scellé dans sa boîte" },
+                    { name: "Garantie", value: "Garantie fabricant d'un an" }
+                ],
+                images: [
+                    "images/xps1.jpg.avif",
+                    "images/xps2.jpg.avif",
+                    "images/xps3.jpg.avif"
+                ]
+            },
+            "007": {
+                name: "Écouteurs Sans Fil Pro",
+                type: "neuf",
+                price: 129,
+                description: "Écouteurs sans fil premium avec réduction active du bruit, qualité sonore immersive et longue durée de batterie. Parfaits pour la musique, les appels et les entraînements.",
+                specs: [
+                    { name: "Autonomie", value: "8 heures (30 heures avec étui)" },
+                    { name: "Fonctionnalités", value: "Réduction Active du Bruit, Mode Transparence" },
+                    { name: "Résistance à l'eau", value: "IPX4 (résistant à la transpiration et aux éclaboussures)" },
+                    { name: "Connectivité", value: "Bluetooth 5.2" },
+                    { name: "État", value: "Neuf, scellé dans sa boîte" },
+                    { name: "Garantie", value: "Garantie fabricant d'un an" }
+                ],
+                images: [
+                    "images/ecouteur1.jpg.avif",
+                    "images/ecouteur2.jpg.avif",
+                    "images/ecouteur3.jpg.avif"
+                ]
+            }
+        };
+        
+        // Open modal function
+        function openProductModal(productId) {
+            const product = products[productId];
+            if (!product) return;
+            
+            // Create modal content
+            const modalContent = `
+                <div class="modal-gallery">
+                    <img src="${product.images[0]}" alt="${product.name}" class="main-image">
+                    <div class="thumbnail-container">
+                        ${product.images.map((img, index) => `
+                            <img src="${img}" alt="Miniature ${index + 1}" class="thumbnail ${index === 0 ? 'active' : ''}" data-index="${index}">
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="modal-info">
+                    <span class="tag tag-${product.type === 'neuf' ? 'new' : 'refurbished'}">${product.type.charAt(0).toUpperCase() + product.type.slice(1)}</span>
+                    <h2>${product.name}</h2>
+                    <div class="modal-price">
+                        ${product.price} €
+                        ${product.originalPrice ? `<span class="original-price">${product.originalPrice} €</span>` : ''}
+                    </div>
+                    <p class="modal-description">${product.description}</p>
+                    <h3>Spécifications</h3>
+                    <ul class="specs-list">
+                        ${product.specs.map(spec => `
+                            <li><span>${spec.name}:</span> <span>${spec.value}</span></li>
+                        `).join('')}
+                    </ul>
+                    <div class="modal-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" id="decreaseQuantity">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input" id="quantityInput">
+                            <button class="quantity-btn" id="increaseQuantity">+</button>
+                        </div>
+                        <button class="btn btn-primary add-to-cart-btn">Ajouter au Panier</button>
+                    </div>
+                </div>
+            `;
+            
+            // Insert content into modal
+            modalBody.innerHTML = modalContent;
+            
+            // Show modal with animation
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            
+            // Set up thumbnail gallery functionality
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainImage = document.querySelector('.main-image');
+            
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    // Remove active class from all thumbnails
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked thumbnail
+                    thumb.classList.add('active');
+                    
+                    // Update main image
+                    mainImage.src = product.images[thumb.dataset.index];
+                    mainImage.classList.add('fade-in');
+                    
+                    // Remove animation class after animation completes
+                    setTimeout(() => {
+                        mainImage.classList.remove('fade-in');
+                    }, 500);
+                });
+            });
+            
+            // Set up quantity selector
+            const decreaseBtn = document.getElementById('decreaseQuantity');
+            const increaseBtn = document.getElementById('increaseQuantity');
+            const quantityInput = document.getElementById('quantityInput');
+            
+            decreaseBtn.addEventListener('click', () => {
+                const currentValue = parseInt(quantityInput.value);
+                if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                }
+            });
+            
+            increaseBtn.addEventListener('click', () => {
+                const currentValue = parseInt(quantityInput.value);
+                quantityInput.value = currentValue + 1;
+            });
+        }
+        
+        // Close modal function
+        function closeProductModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Re-enable scrolling
+            
+            // Clear modal content after animation completes
+            setTimeout(() => {
+                modalBody.innerHTML = '';
+            }, 300);
+        }
+        
+        // Event listeners for opening modal
+        const quickViewButtons = document.querySelectorAll('.quick-view-btn');
+        const productCards = document.querySelectorAll('.product-card, .feature-card');
+        
+        quickViewButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent card click
+                openProductModal(button.dataset.productId);
+            });
+        });
+        
+        productCards.forEach(card => {
+            card.addEventListener('click', () => {
+                openProductModal(card.dataset.productId);
+            });
+        });
+        
+        // Event listener for closing modal
+        modalClose.addEventListener('click', closeProductModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeProductModal();
+            }
+        });
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeProductModal();
+            }
+        });
+        
+        // Animate elements on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.feature-card, .product-card, .service-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('slide-up');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+        
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', animateOnScroll);
+        // Language selector functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const languageToggle = document.querySelector('.language-toggle');
+    const languageMenu = document.querySelector('.language-menu');
+    const languageOptions = document.querySelectorAll('.language-option');
+    const currentLanguageElem = document.querySelector('.current-language');
+
+    // Toggle language menu when clicking the button
+    languageToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        languageMenu.classList.toggle('active');
+    });
+
+    // Close language menu when clicking elsewhere
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.language-selector')) {
+            languageMenu.classList.remove('active');
+        }
+    });
+
+    // Handle language selection
+    languageOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            // Update active class
+            languageOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            
+            // Update current language display
+            const langCode = option.getAttribute('data-lang');
+            currentLanguageElem.textContent = langCode.toUpperCase();
+            
+            // Close the menu
+            languageMenu.classList.remove('active');
+            
+            // Log the language change (in a real implementation, this would change the site language)
+            console.log(`Langue changée en : ${langCode}`);
+        });
+    });
+});
+    </script>
+</body>
+</html>
